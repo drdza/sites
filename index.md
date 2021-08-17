@@ -1,37 +1,55 @@
-## Welcome to GitHub Pages
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Acceso Multiple Qlik</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-You can use the [editor on GitHub](https://github.com/datvizie/sites/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+    <!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+</head>
+<body >
+	<div class="container py-4">
+		<div class='container'>
+			<div class='h-100 p-5 mb-3 rounded' style ="border-style:dashed">
+				<h1>Qlik Sense</h1>
+				<p>Acceso rápido</p>
+				<b><p class="text-end">Auditoría</p></b>
+			</div>
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+			<div class="row align-items-center py-4" >
+				<div class="col-sm-6" >
+					<div class="card mb-3" style ="border-style:dashed">
+						<a href="https://devinno.reyma.com.mx:7800/dev/single/?appid=342a227d-d681-4b90-96cc-106baef77726&sheet=b07b6e65-3dbb-4c40-b641-4f78d0d144aa"> 
+							<img class="py-3 px-3 mb-3" src="assets/imgs/warehouse_02.gif" height= "250">
+						</a>
+						<div class="card-body">
+							<h5 class="card-title">Traspasos Entre Subalmacenes - AP</h5>
+							<p class="card-text">Reporte de traspasos entre subalmacenes</p>
+							<a href="https://devinno.reyma.com.mx:7800/dev/single/?appid=342a227d-d681-4b90-96cc-106baef77726&sheet=b07b6e65-3dbb-4c40-b641-4f78d0d144aa" class="btn btn-dark" target="_blank">Ir al tablero</a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-sm-6">
+					<div class="card mb-3" style ="border-style:dashed">
+						<a href="https://devinno.reyma.com.mx:7800/dev/single/?appid=a189d737-be16-4a8c-9d4a-36e6a2d27465&sheet=b07b6e65-3dbb-4c40-b641-4f78d0d144aa">
+							<img class="py-3 px-3 mb-3" src="assets/imgs/warehouse_01.gif" height= "250">
+						</a>
+						<div class="card-body">
+							<h5 class="card-title">Movimientos Cancelaciones - Modificaciones</h5>
+							<p class="card-text">Reporte de cancelaciones y/o modificaciones en Almacenes y Producción</p>
+							<a href="https://devinno.reyma.com.mx:7800/dev/single/?appid=a189d737-be16-4a8c-9d4a-36e6a2d27465&sheet=b07b6e65-3dbb-4c40-b641-4f78d0d144aa" class="btn btn-dark" target="_blank" >Ir al tablero</a>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			
+		</div>
+	</div>
 
-### Markdown
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+</body>
+</html>
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/datvizie/sites/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
