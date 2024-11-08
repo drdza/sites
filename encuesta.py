@@ -1,12 +1,39 @@
+import os
+import json
 import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 
+# Cargar las credenciales desde variables de entorno
+credentials_dict = {
+    "type": os.getenv("GCP_TYPE"),
+    "project_id": os.getenv("GCP_PROJECT_ID"),
+    "private_key_id": os.getenv("GCP_PRIVATE_KEY_ID"),
+    "private_key": os.getenv("GCP_PRIVATE_KEY").replace('\\n', '\n'),
+    "client_email": os.getenv("GCP_CLIENT_EMAIL"),
+    "client_id": os.getenv("GCP_CLIENT_ID"),
+    "auth_uri": os.getenv("GCP_AUTH_URI"),
+    "token_uri": os.getenv("GCP_TOKEN_URI"),
+    "auth_provider_x509_cert_url": os.getenv("GCP_AUTH_PROVIDER_CERT_URL"),
+    "client_x509_cert_url": os.getenv("GCP_CLIENT_CERT_URL")
+}
+
+# Guardar temporalmente las credenciales para autenticar
+with open("temp_credentials.json", "w") as f:
+    json.dump(credentials_dict, f)
+
+
 # Configuración de Google Sheets
-scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/spreadsheets", 
+         "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
+creds = ServiceAccountCredentials.from_json_keyfile_name("temp_credentials.json", scope)
 client = gspread.authorize(creds)
+
+# Opcional: Elimina el archivo temporal si deseas mayor seguridad
+import os
+os.remove("temp_credentials.json")
+
 sheet = client.open("Encuesta").sheet1  # Reemplaza con el nombre de tu hoja
 
 # Función para almacenar el resultado en Google Sheets
