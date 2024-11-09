@@ -126,5 +126,6 @@ else:
                 # Procesa y almacena las respuestas según tu lógica (ejemplo aquí)
                 respuestas = list(respuestas_dict.values())
                 determinar_color()
+                st.session_state.encuesta_completada = True
     else:
         st.warning("Por favor, introduce tu identificador único.")
