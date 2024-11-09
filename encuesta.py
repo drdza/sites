@@ -72,6 +72,11 @@ def verificar_correo_registrado(user_email):
             return True
     return False
 
+# Función para validar el formato del correo electrónico
+def validar_correo(correo):
+    patron = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    return re.match(patron, correo) is not None
+
 # Función para mostrar y guardar el resultado
 def mostrar_resultado(color_predominante, color_secundario, color_terciario):
     resultado = f"Tu color predominante es {color_predominante}."
@@ -97,14 +102,15 @@ st.title("Test de Personalidad: Descubre tu Color Predominante")
 
 # Preguntar al usuario si el correo ya está registrado
 user_id = st.text_input("Introduce tu nombre:", "")   
-e_mail = st.text_input("Introduce tu correo electrónico:", "")
+e_mail = st.mail_input("Introduce tu correo electrónico:", "")
 if e_mail:
-    if verificar_correo_registrado(e_mail):
-        st.session_state.encuesta_completada = True
-        st.session_state.agradecimiento = "¡Gracias por completar la encuesta! 🎉"
-        st.session_state.color_resultado = "Este correo ya ha sido registrado."
-    else:
-        st.session_state.encuesta_completada = False
+    if validar_correo(e_mail):
+        if verificar_correo_registrado(e_mail):
+            st.session_state.encuesta_completada = True
+            st.session_state.color_resultado = "Este correo ya ha sido registrado."
+            st.session_state.agradecimiento = "¡Gracias por completar la encuesta! 🎉"        
+        else:
+            st.session_state.encuesta_completada = False
 
 if st.session_state.encuesta_completada:
     st.success(st.session_state.agradecimiento)
