@@ -30,8 +30,7 @@ scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/au
 creds = ServiceAccountCredentials.from_json_keyfile_name("temp_credentials.json", scope)
 client = gspread.authorize(creds)
 
-# Opcional: Elimina el archivo temporal si deseas mayor seguridad
-import os
+# Eliminar el archivo temporal de credenciales para mayor seguridad
 os.remove("temp_credentials.json")
 
 sheet = client.open("Encuesta").sheet1  # Reemplaza con el nombre de tu hoja
@@ -50,30 +49,26 @@ def guardar_resultado(user_id, color_predominante, color_secundario, color_terci
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     sheet.append_row([user_id, color_predominante, color_secundario, color_terciario, timestamp, id_unico])
 
-def determinar_color():
+# Función para calcular el color predominante y complementarios
+def calcular_colores(respuestas):
     # Determinación del color predominante y complementarios (ejemplo básico)
     colores = {
         "Rojo": sum(1 for r in respuestas if "A. " in r),
         "Verde": sum(1 for r in respuestas if "B. " in r),
         "Azul": sum(1 for r in respuestas if "C. " in r),
         "Amarillo": sum(1 for r in respuestas if "D. " in r)
-    }
-    
-    # Ordenar colores por frecuencia
-    colores_ordenados = sorted(colores.items(), key=lambda x: x[1], reverse=True)
-    
-    # Identificar el color predominante
+    }        
+    colores_ordenados = sorted(colores.items(), key=lambda x: x[1], reverse=True)    
     color_predominante = colores_ordenados[0][0]
-    
-    # Identificar colores complementarios solo si tienen un valor distinto de cero
     color_secundario = colores_ordenados[1][0] if colores_ordenados[1][1] > 0 else None
     color_terciario = colores_ordenados[2][0] if colores_ordenados[2][1] > 0 else None
-    
-    # Guardar resultado
+    return color_predominante, color_secundario, color_terciario    
+
+# Función para mostrar y guardar el resultado
+def mostrar_resultado(user_id, respuestas):
+    color_predominante, color_secundario, color_terciario = calcular_colores(respuestas)
     id_unico = obtener_siguiente_id()
-    guardar_resultado(user_id, color_predominante, color_secundario or "", color_terciario or "", id_unico)
-    
-    # Mostrar resultado
+    guardar_resultado(user_id, color_predominante, color_secundario or "", color_terciario or "", id_unico)    
     resultado = f"Tu color predominante es {color_predominante}."
     if color_secundario:
         resultado += f" Color complementario: {color_secundario}."
@@ -81,26 +76,21 @@ def determinar_color():
         resultado += f" Otro color complementario: {color_terciario}."    
     st.success(resultado)
 
-# Preguntas del Test
-preguntas = []
 
+#Cargar preguntas desde un archivo Json
 with open("preguntas.json", "r", encoding="utf-8") as file:
     preguntas = json.load(file)
-
-# Título de la aplicación
+    
 st.title("Test de Personalidad: Descubre tu Color Predominante")
 
-# Verificar si la encuesta ya fue completada usando session_state
 if "encuesta_completada" not in st.session_state:
     st.session_state.encuesta_completada = False
 
-# Mostrar página de agradecimiento si la encuesta ya fue completada
 if st.session_state.encuesta_completada:
     st.success("¡Gracias por completar la encuesta! 🎉")
     st.write("Tu participación es muy valiosa para nosotros.")
 else:
-    # Identificador único del usuario
-    user_id = st.text_input("Introduce tu nombre:", "")
+    user_id = st.text_input("Introduce tu nombre:", "")    
     respuestas = []
     
     # Validar que el usuario haya ingresado su identificador
