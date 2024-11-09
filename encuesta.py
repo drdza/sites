@@ -90,32 +90,41 @@ with open("preguntas.json", "r", encoding="utf-8") as file:
 # Título de la aplicación
 st.title("Test de Personalidad: Descubre tu Color Predominante")
 
-# Identificador único del usuario
-user_id = st.text_input("Introduce tu nombre:", "")
-respuestas = []
+# Verificar si la encuesta ya fue completada usando session_state
+if "encuesta_completada" not in st.session_state:
+    st.session_state.encuesta_completada = False
 
-# Validar que el usuario haya ingresado su identificador
-if user_id:    
-    st.write("Responde a todas las preguntas antes de enviar.")
-    
-    # Diccionario para almacenar las respuestas del usuario
-    respuestas_dict = {i: None for i in range(len(preguntas))}
-    
-    # Preguntas y opciones
-    for i, pregunta in enumerate(preguntas):
-        opciones = ["Seleccione una respuesta"] + pregunta["opciones"]
-        st.write(f"**Pregunta {i+1}:** {pregunta['pregunta']}")
-        respuesta = st.radio("", opciones, key=i)
-        respuestas_dict[i] = respuesta        
-
-    # Botón para enviar respuestas
-    if st.button("Enviar"):
-        if "Seleccione una respuesta" in respuestas_dict.values():
-            st.warning("Por favor, responde a todas las preguntas antes de enviar.")
-        else:
-            st.success("Gracias por completar la encuesta. Procesando tus respuestas...")
-            # Procesa y almacena las respuestas según tu lógica (ejemplo aquí)
-            respuestas = list(respuestas_dict.values())
-            determinar_color()
+# Mostrar página de agradecimiento si la encuesta ya fue completada
+if st.session_state.encuesta_completada:
+    st.success("¡Gracias por completar la encuesta! 🎉")
+    st.write("Tu participación es muy valiosa para nosotros.")
 else:
-    st.warning("Por favor, introduce tu identificador único.")
+    # Identificador único del usuario
+    user_id = st.text_input("Introduce tu nombre:", "")
+    respuestas = []
+    
+    # Validar que el usuario haya ingresado su identificador
+    if user_id:    
+        st.write("Responde a todas las preguntas antes de enviar.")
+        
+        # Diccionario para almacenar las respuestas del usuario
+        respuestas_dict = {i: None for i in range(len(preguntas))}
+        
+        # Preguntas y opciones
+        for i, pregunta in enumerate(preguntas):
+            opciones = ["Seleccione una respuesta"] + pregunta["opciones"]
+            st.write(f"**Pregunta {i+1}:** {pregunta['pregunta']}")
+            respuesta = st.radio("", opciones, key=i)
+            respuestas_dict[i] = respuesta        
+    
+        # Botón para enviar respuestas
+        if st.button("Enviar"):
+            if "Seleccione una respuesta" in respuestas_dict.values():
+                st.warning("Por favor, responde a todas las preguntas antes de enviar.")
+            else:
+                st.success("Gracias por completar la encuesta. Procesando tus respuestas...")
+                # Procesa y almacena las respuestas según tu lógica (ejemplo aquí)
+                respuestas = list(respuestas_dict.values())
+                determinar_color()
+    else:
+        st.warning("Por favor, introduce tu identificador único.")
