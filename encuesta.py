@@ -45,9 +45,9 @@ def obtener_siguiente_id():
         return 1  # Si no hay registros, comienza con ID = 1
 
 # Función para almacenar el resultado en Google Sheets
-def guardar_resultado(user_id, color_predominante, color_secundario, color_terciario, id_unico):
+def guardar_resultado(user_id, e_mail, color_predominante, color_secundario, color_terciario, id_unico):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    sheet.append_row([user_id, color_predominante, color_secundario, color_terciario, timestamp, id_unico])
+    sheet.append_row([user_id, e_mail, color_predominante, color_secundario, color_terciario, timestamp, id_unico])
 
 # Función para calcular el color predominante y complementarios
 def calcular_colores(respuestas):
@@ -64,18 +64,26 @@ def calcular_colores(respuestas):
     color_terciario = colores_ordenados[2][0] if colores_ordenados[2][1] > 0 else None
     return color_predominante, color_secundario, color_terciario    
 
+# Función para verificar si el correo ya fue registrado
+def verificar_correo_registrado(user_email):
+    registros = sheet.get_all_records()
+    for registro in registros:
+        if registro.get("e_mail") == user_email:
+            return True
+    return False
+
 # Función para mostrar y guardar el resultado
-def mostrar_resultado(user_id, respuestas):
+def mostrar_resultado(user_id, e_mail, respuestas):
     color_predominante, color_secundario, color_terciario = calcular_colores(respuestas)
     id_unico = obtener_siguiente_id()
-    guardar_resultado(user_id, color_predominante, color_secundario or "", color_terciario or "", id_unico)    
+    guardar_resultado(user_id, e_mail, color_predominante, color_secundario or "", color_terciario or "", id_unico)    
     resultado = f"Tu color predominante es {color_predominante}."
     if color_secundario:
         resultado += f" Color complementario: {color_secundario}."
     if color_terciario:
         resultado += f" Otro color complementario: {color_terciario}."    
     st.success(resultado)
-
+    
 
 #Cargar preguntas desde un archivo Json
 with open("preguntas.json", "r", encoding="utf-8") as file:
@@ -86,11 +94,19 @@ st.title("Test de Personalidad: Descubre tu Color Predominante")
 if "encuesta_completada" not in st.session_state:
     st.session_state.encuesta_completada = False
 
+# Preguntar al usuario si el correo ya está registrado
+e_mail = st.text_input("Introduce tu correo electrónico:", "")
+if e_mail:
+    if verificar_correo_registrado(e_mail):
+        st.session_state.encuesta_completada = True
+
+
 if st.session_state.encuesta_completada:
     st.success("¡Gracias por completar la encuesta! 🎉")
     st.write("Tu participación es muy valiosa para nosotros.")
 else:
-    user_id = st.text_input("Introduce tu nombre:", "")    
+    user_id = st.text_input("Introduce tu nombre:", "")   
+    e_mail =  st.text_input("Introduce tu correo electronico:", "")   
     respuestas = []
     
     # Validar que el usuario haya ingresado su identificador
@@ -112,10 +128,9 @@ else:
             if "Seleccione una respuesta" in respuestas_dict.values():
                 st.warning("Por favor, responde a todas las preguntas antes de enviar.")
             else:
-                st.success("Gracias por completar la encuesta. Procesando tus respuestas...")
-                # Procesa y almacena las respuestas según tu lógica (ejemplo aquí)
+                st.success("Gracias por completar la encuesta.")            
                 respuestas = list(respuestas_dict.values())
-                determinar_color()
+                mostrar_resultado(user_id, e_mail, respuestas)
                 st.session_state.encuesta_completada = True
     else:
         st.warning("Por favor, introduce tu identificador único.")
