@@ -112,6 +112,8 @@ if e_mail:
             st.session_state.agradecimiento = "¡Gracias por completar la encuesta! 🎉"        
         else:
             st.session_state.encuesta_completada = False
+    else:
+        st.warning("Por favor, introduce un correo válido")
 
 if st.session_state.encuesta_completada:
     st.success(st.session_state.agradecimiento)
