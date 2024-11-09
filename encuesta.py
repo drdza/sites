@@ -122,7 +122,7 @@ else:
     respuestas = []
     
     # Validar que el usuario haya ingresado su identificador
-    if user_id and e_mail:    
+    if user_id and validar_correo(e_mail):    
         st.write("Responde a todas las preguntas antes de enviar.")
         
         # Diccionario para almacenar las respuestas del usuario
