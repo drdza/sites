@@ -44,6 +44,8 @@ def guardar_resultado(user_id, color_predominante, color_secundario, color_terci
 # Preguntas del Test
 preguntas = []
 
+with open("preguntas.json", "r", encoding="utf-8") as file:
+    preguntas = json.load(file)
 
 # Título de la aplicación
 st.title("Test de Personalidad: Descubre tu Color Predominante")
