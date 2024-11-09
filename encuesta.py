@@ -64,7 +64,7 @@ if user_id:
     # Preguntas y opciones
     for i, pregunta in enumerate(preguntas):
         st.write(f"**Pregunta {i+1}:** {pregunta['pregunta']}")
-        respuesta = st.radio("", pregunta["opciones"], key=i, index =-1)
+        respuesta = st.radio("", pregunta["opciones"], key=i, index=-1)
         respuestas_dict[i] = respuesta        
 
     # Botón para enviar respuestas
