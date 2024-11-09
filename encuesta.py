@@ -127,11 +127,8 @@ else:
                 respuestas = list(respuestas_dict.values())                
                 id_unico = obtener_siguiente_id()
                 color_predominante, color_secundario, color_terciario = calcular_colores(respuestas)
-                guardar_resultado(user_id, e_mail, color_predominante, color_secundario or "", color_terciario or "", id_unico) 
+                guardar_resultado(user_id, e_mail, color_predominante, color_secundario or "", color_terciario or "", id_unico)                 
+                mostrar_resultado(color_predominante, color_secundario, color_terciario)
                 st.session_state.encuesta_completada = True
-                if st.session_state.encuesta_completada:
-                    st.success("¡Gracias por completar la encuesta! 🎉")
-                    st.success("Tu participación es muy valiosa para nosotros.")
-                mostrar_resultado(color_predominante, color_secundario, color_terciario)                
     else:
         st.warning("Por favor, introduce tus datos completos.")
