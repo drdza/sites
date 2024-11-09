@@ -36,10 +36,19 @@ os.remove("temp_credentials.json")
 
 sheet = client.open("Encuesta").sheet1  # Reemplaza con el nombre de tu hoja
 
+# Función para generar un ID único e incremental
+def obtener_siguiente_id():
+    records = sheet.get_all_records()
+    if records:
+        ultimo_id = records[-1].get("ID", 0)  # Obtiene el último ID registrado en la columna "ID"
+        return ultimo_id + 1
+    else:
+        return 1  # Si no hay registros, comienza con ID = 1
+
 # Función para almacenar el resultado en Google Sheets
-def guardar_resultado(user_id, color_predominante, color_secundario, color_terciario):
+def guardar_resultado(user_id, color_predominante, color_secundario, color_terciario, id_unico):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    sheet.append_row([user_id, color_predominante, color_secundario, color_terciario, timestamp])
+    sheet.append_row([user_id, color_predominante, color_secundario, color_terciario, timestamp, id_unico])
 
 def determinar_color():
     # Determinación del color predominante y complementarios (ejemplo básico)
@@ -61,7 +70,8 @@ def determinar_color():
     color_terciario = colores_ordenados[2][0] if colores_ordenados[2][1] > 0 else None
     
     # Guardar resultado
-    guardar_resultado(user_id, color_predominante, color_secundario or "", color_terciario or "")
+    id_unico = obtener_siguiente_id()
+    guardar_resultado(user_id, color_predominante, color_secundario or "", color_terciario or "", id_unico)
     
     # Mostrar resultado
     resultado = f"Tu color predominante es {color_predominante}."
