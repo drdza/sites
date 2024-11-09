@@ -81,6 +81,13 @@ def mostrar_resultado(color_predominante, color_secundario, color_terciario):
         resultado += f" Otro color complementario: {color_terciario}."    
     st.success(resultado)
     
+# Inicializar variables de estado
+if "encuesta_completada" not in st.session_state:
+    st.session_state.encuesta_completada = False
+if "agradecimiento" not in st.session_state:
+    st.session_state.agradecimiento = ""
+if "color_resultado" not in st.session_state:
+    st.session_state.color_resultado = ""
 
 #Cargar preguntas desde un archivo Json
 with open("preguntas.json", "r", encoding="utf-8") as file:
@@ -94,12 +101,14 @@ e_mail = st.text_input("Introduce tu correo electrónico:", "")
 if e_mail:
     if verificar_correo_registrado(e_mail):
         st.session_state.encuesta_completada = True
+        st.session_state.agradecimiento = "¡Gracias por completar la encuesta! 🎉"
+        st.session_state.color_resultado = "Este correo ya ha sido registrado."
     else:
         st.session_state.encuesta_completada = False
 
 if st.session_state.encuesta_completada:
-    st.success("¡Gracias por completar la encuesta! 🎉")
-    st.success("Tu participación es muy valiosa para nosotros.")
+    st.success(st.session_state.agradecimiento)
+    st.write(st.session_state.color_resultado)
 else:
     respuestas = []
     
