@@ -94,6 +94,9 @@ if "agradecimiento" not in st.session_state:
     st.session_state.agradecimiento = ""
 if "color_resultado" not in st.session_state:
     st.session_state.color_resultado = ""
+if "correo_valido" not in st.session_state:
+    st.session_state.correo_valido = ""
+    
 
 #Cargar preguntas desde un archivo Json
 with open("preguntas.json", "r", encoding="utf-8") as file:
@@ -113,7 +116,7 @@ if e_mail:
         else:
             st.session_state.encuesta_completada = False
     else:
-        st.warning("Por favor, introduce un correo válido")
+        st.session_state.correo_valido = 'Introduce un correo válido.'
 
 if st.session_state.encuesta_completada:
     st.success(st.session_state.agradecimiento)
@@ -148,4 +151,4 @@ else:
                 mostrar_resultado(color_predominante, color_secundario, color_terciario)
                 st.session_state.encuesta_completada = True
     else:
-        st.warning("Por favor, introduce tus datos completos.")
+        st.warning("Por favor, introduce tus datos completos. " + st.sesion_state.correo_valido)
