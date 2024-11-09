@@ -95,18 +95,16 @@ if "encuesta_completada" not in st.session_state:
     st.session_state.encuesta_completada = False
 
 # Preguntar al usuario si el correo ya está registrado
+user_id = st.text_input("Introduce tu nombre:", "")   
 e_mail = st.text_input("Introduce tu correo electrónico:", "")
 if e_mail:
     if verificar_correo_registrado(e_mail):
         st.session_state.encuesta_completada = True
 
-
 if st.session_state.encuesta_completada:
     st.success("¡Gracias por completar la encuesta! 🎉")
     st.write("Tu participación es muy valiosa para nosotros.")
 else:
-    user_id = st.text_input("Introduce tu nombre:", "")   
-    e_mail =  st.text_input("Introduce tu correo electronico:", "")   
     respuestas = []
     
     # Validar que el usuario haya ingresado su identificador
@@ -133,4 +131,4 @@ else:
                 mostrar_resultado(user_id, e_mail, respuestas)
                 st.session_state.encuesta_completada = True
     else:
-        st.warning("Por favor, introduce tu identificador único.")
+        st.warning("Por favor, introduce tus datos completos.")
