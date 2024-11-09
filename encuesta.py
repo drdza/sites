@@ -63,13 +63,14 @@ if user_id:
     
     # Preguntas y opciones
     for i, pregunta in enumerate(preguntas):
+        opciones = ["Seleccione una respuesta"] + pregunta["opciones"]
         st.write(f"**Pregunta {i+1}:** {pregunta['pregunta']}")
-        respuesta = st.radio("", pregunta["opciones"], key=i, index=-1)
+        respuesta = st.radio("", pregunta["opciones"], key=i)
         respuestas_dict[i] = respuesta        
 
     # Botón para enviar respuestas
     if st.button("Enviar"):
-        if None in respuestas_dict.values():
+        if "Seleccione una respuesta" in respuestas_dict.values():
             st.warning("Por favor, responde a todas las preguntas antes de enviar.")
         else:
             st.success("Gracias por completar la encuesta. Procesando tus respuestas...")
