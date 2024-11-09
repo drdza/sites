@@ -52,19 +52,31 @@ st.title("Test de Personalidad: Descubre tu Color Predominante")
 
 # Identificador único del usuario
 user_id = st.text_input("Introduce tu nombre:", "")
+respuestas = []
 
 # Validar que el usuario haya ingresado su identificador
-if user_id:
-    respuestas = []
-
+if user_id:    
+    st.write("Responde a todas las preguntas antes de enviar.")
+    
+    # Diccionario para almacenar las respuestas del usuario
+    respuestas_dict = {i: None for i in range(len(preguntas))}
+    
     # Preguntas y opciones
     for i, pregunta in enumerate(preguntas):
         st.write(f"**Pregunta {i+1}:** {pregunta['pregunta']}")
-        respuesta = st.radio("", pregunta["opciones"], key=i)
-        respuestas.append(respuesta)
+        respuesta = st.radio("", pregunta["opciones"], key=i, index =-1)
+        respuestas_dict[i] = respuesta        
 
     # Botón para enviar respuestas
     if st.button("Enviar"):
+        if None in respuestas_dict.values():
+            st.warning("Por favor, responde a todas las preguntas antes de enviar.")
+        else:
+            st.success("Gracias por completar la encuesta. Procesando tus respuestas...")
+            # Procesa y almacena las respuestas según tu lógica (ejemplo aquí)
+            respuestas = list(respuestas_dict.values())
+            st.write("Respuestas seleccionadas:", respuestas)
+        
         # Determinación del color predominante y complementarios (ejemplo básico)
         colores = {
             "Rojo": sum(1 for r in respuestas if "A. " in r),
