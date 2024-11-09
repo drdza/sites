@@ -44,10 +44,10 @@ def guardar_resultado(user_id, color_predominante, color_secundario, color_terci
 def determinar_color():
     # Determinación del color predominante y complementarios (ejemplo básico)
     colores = {
-    "Rojo": sum(1 for r in respuestas if "A. " in r),
-    "Verde": sum(1 for r in respuestas if "B. " in r),
-    "Azul": sum(1 for r in respuestas if "C. " in r),
-    "Amarillo": sum(1 for r in respuestas if "D. " in r)
+        "Rojo": sum(1 for r in respuestas if "A. " in r),
+        "Verde": sum(1 for r in respuestas if "B. " in r),
+        "Azul": sum(1 for r in respuestas if "C. " in r),
+        "Amarillo": sum(1 for r in respuestas if "D. " in r)
     }
     
     # Ordenar colores por frecuencia
@@ -66,9 +66,9 @@ def determinar_color():
     # Mostrar resultado
     resultado = f"Tu color predominante es {color_predominante}."
     if color_secundario:
-    resultado += f" Color complementario: {color_secundario}."
+        resultado += f" Color complementario: {color_secundario}."
     if color_terciario:
-    resultado += f" Otro color complementario: {color_terciario}."    
+        resultado += f" Otro color complementario: {color_terciario}."    
     st.success(resultado)
 
 # Preguntas del Test
