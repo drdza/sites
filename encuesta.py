@@ -122,7 +122,7 @@ preguntas = [
 st.title("Test de Personalidad: Descubre tu Color Predominante")
 
 # Identificador único del usuario
-user_id = st.text_input("Introduce tu identificador único:", "")
+user_id = st.text_input("Introduce tu nombre:", "")
 
 # Validar que el usuario haya ingresado su identificador
 if user_id:
