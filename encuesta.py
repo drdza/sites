@@ -102,7 +102,8 @@ if "correo_valido" not in st.session_state:
 with open("preguntas.json", "r", encoding="utf-8") as file:
     preguntas = json.load(file)
     
-st.title("Test de Personalidad: Descubre tu Color Predominante")  
+st.title("😎 Test de Personalidad")  
+st.caption("🧐 Descubre tu Color Predominante")
 
 # Preguntar al usuario si el correo ya está registrado
 user_id = st.text_input("Introduce tu nombre:", "")   
