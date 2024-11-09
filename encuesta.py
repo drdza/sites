@@ -73,10 +73,8 @@ def verificar_correo_registrado(user_email):
     return False
 
 # Función para mostrar y guardar el resultado
-def mostrar_resultado(user_id, e_mail, respuestas):
+def mostrar_resultado(respuestas):
     color_predominante, color_secundario, color_terciario = calcular_colores(respuestas)
-    id_unico = obtener_siguiente_id()
-    guardar_resultado(user_id, e_mail, color_predominante, color_secundario or "", color_terciario or "", id_unico)    
     resultado = f"Tu color predominante es {color_predominante}."
     if color_secundario:
         resultado += f" Color complementario: {color_secundario}."
@@ -127,8 +125,13 @@ else:
                 st.warning("Por favor, responde a todas las preguntas antes de enviar.")
             else:
                 st.success("Gracias por completar la encuesta.")            
-                respuestas = list(respuestas_dict.values())
-                mostrar_resultado(user_id, e_mail, respuestas)
+                respuestas = list(respuestas_dict.values())                
+                id_unico = obtener_siguiente_id()
+                guardar_resultado(user_id, e_mail, color_predominante, color_secundario or "", color_terciario or "", id_unico) 
                 st.session_state.encuesta_completada = True
+                if st.session_state.encuesta_completada:
+                    st.success("¡Gracias por completar la encuesta! 🎉")
+                    st.success("Tu participación es muy valiosa para nosotros.")
+                mostrar_resultado(respuestas)                
     else:
         st.warning("Por favor, introduce tus datos completos.")
