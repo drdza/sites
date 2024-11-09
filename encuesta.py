@@ -94,7 +94,7 @@ e_mail = st.text_input("Introduce tu correo electrónico:", "")
 if e_mail:
     if verificar_correo_registrado(e_mail):
         st.session_state.encuesta_completada = True
-    else
+    else:
         st.session_state.encuesta_completada = False
 
 if st.session_state.encuesta_completada:
