@@ -102,7 +102,7 @@ st.title("Test de Personalidad: Descubre tu Color Predominante")
 
 # Preguntar al usuario si el correo ya está registrado
 user_id = st.text_input("Introduce tu nombre:", "")   
-e_mail = st.mail_input("Introduce tu correo electrónico:", "")
+e_mail = st.text_input("Introduce tu correo electrónico:", "")
 if e_mail:
     if validar_correo(e_mail):
         if verificar_correo_registrado(e_mail):
