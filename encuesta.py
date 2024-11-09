@@ -103,7 +103,7 @@ if e_mail:
 
 if st.session_state.encuesta_completada:
     st.success("¡Gracias por completar la encuesta! 🎉")
-    st.write("Tu participación es muy valiosa para nosotros.")
+    st.success("Tu participación es muy valiosa para nosotros.")
 else:
     respuestas = []
     
