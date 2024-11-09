@@ -151,4 +151,4 @@ else:
                 mostrar_resultado(color_predominante, color_secundario, color_terciario)
                 st.session_state.encuesta_completada = True
     else:
-        st.warning("Por favor, introduce tus datos completos. " + st.sesion_state.correo_valido)
+        st.warning("Por favor, introduce tus datos completos. " + st.session_state.correo_valido)
