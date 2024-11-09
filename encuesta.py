@@ -41,6 +41,36 @@ def guardar_resultado(user_id, color_predominante, color_secundario, color_terci
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     sheet.append_row([user_id, color_predominante, color_secundario, color_terciario, timestamp])
 
+def determinar_color():
+    # Determinación del color predominante y complementarios (ejemplo básico)
+    colores = {
+    "Rojo": sum(1 for r in respuestas if "A. " in r),
+    "Verde": sum(1 for r in respuestas if "B. " in r),
+    "Azul": sum(1 for r in respuestas if "C. " in r),
+    "Amarillo": sum(1 for r in respuestas if "D. " in r)
+    }
+    
+    # Ordenar colores por frecuencia
+    colores_ordenados = sorted(colores.items(), key=lambda x: x[1], reverse=True)
+    
+    # Identificar el color predominante
+    color_predominante = colores_ordenados[0][0]
+    
+    # Identificar colores complementarios solo si tienen un valor distinto de cero
+    color_secundario = colores_ordenados[1][0] if colores_ordenados[1][1] > 0 else None
+    color_terciario = colores_ordenados[2][0] if colores_ordenados[2][1] > 0 else None
+    
+    # Guardar resultado
+    guardar_resultado(user_id, color_predominante, color_secundario or "", color_terciario or "")
+    
+    # Mostrar resultado
+    resultado = f"Tu color predominante es {color_predominante}."
+    if color_secundario:
+    resultado += f" Color complementario: {color_secundario}."
+    if color_terciario:
+    resultado += f" Otro color complementario: {color_terciario}."    
+    st.success(resultado)
+
 # Preguntas del Test
 preguntas = []
 
@@ -76,36 +106,6 @@ if user_id:
             st.success("Gracias por completar la encuesta. Procesando tus respuestas...")
             # Procesa y almacena las respuestas según tu lógica (ejemplo aquí)
             respuestas = list(respuestas_dict.values())
-            st.write("Respuestas seleccionadas:", respuestas)
-        
-        # Determinación del color predominante y complementarios (ejemplo básico)
-        colores = {
-            "Rojo": sum(1 for r in respuestas if "A. " in r),
-            "Verde": sum(1 for r in respuestas if "B. " in r),
-            "Azul": sum(1 for r in respuestas if "C. " in r),
-            "Amarillo": sum(1 for r in respuestas if "D. " in r)
-        }
-        
-        # Ordenar colores por frecuencia
-        colores_ordenados = sorted(colores.items(), key=lambda x: x[1], reverse=True)
-
-        # Identificar el color predominante
-        color_predominante = colores_ordenados[0][0]
-
-        # Identificar colores complementarios solo si tienen un valor distinto de cero
-        color_secundario = colores_ordenados[1][0] if colores_ordenados[1][1] > 0 else None
-        color_terciario = colores_ordenados[2][0] if colores_ordenados[2][1] > 0 else None
-
-        # Guardar resultado
-        guardar_resultado(user_id, color_predominante, color_secundario or "", color_terciario or "")
-
-        # Mostrar resultado
-        resultado = f"Tu color predominante es {color_predominante}."
-        if color_secundario:
-            resultado += f" Color complementario: {color_secundario}."
-        if color_terciario:
-            resultado += f" Otro color complementario: {color_terciario}."
-        
-        st.success(resultado)
+            determinar_color()
 else:
     st.warning("Por favor, introduce tu identificador único.")
